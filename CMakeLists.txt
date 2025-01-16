@@ -48,6 +48,7 @@ add_executable(SimpleCAD
 code/CADWidget.hpp
 code/CADWindow.hpp
 code/Geometry.hpp
+code/StepReader.hpp
 
 
 code/CADWidget.cpp

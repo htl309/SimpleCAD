@@ -22,7 +22,6 @@ private:
 
 
     //occ的成员函数
-    Handle(XCAFDoc_ColorTool) aColorTool;
     Handle(XCAFDoc_ShapeTool) aShapeTool;
     Handle(XCAFDoc_Location)  aLocation;
 
@@ -43,15 +42,10 @@ public:
         //创建文档
         Handle(TDocStd_Document) aDoc;
         XCAFApp_Application::GetApplication()->NewDocument("MDTV-XCAF", aDoc);
-        /* Handle(XCAFApp_Application) anApp = XCAFApp_Application::GetApplication();
-         BinXCAFDrivers::DefineFormat(anApp);
-         XmlXCAFDrivers::DefineFormat(anApp);
-         anApp->NewDocument("BinXCAF", aDoc);*/
-         // 
-         //装载文件（.step）
+  
 
         STEPCAFControl_Reader myReader;
-        //myReader.ReadFile(path);
+     
 
         if (myReader.ReadFile(path)) {
             myReader.SetColorMode(true);
@@ -71,7 +65,6 @@ public:
         Handle(XCAFDoc_ShapeTool) myAssembly = XCAFDoc_DocumentTool::ShapeTool(mainLabel);
 
 
-        aColorTool = XCAFDoc_DocumentTool::ColorTool(mainLabel);
         TDF_LabelSequence FreeShape;
         myAssembly->GetFreeShapes(FreeShape);
 
@@ -79,7 +72,7 @@ public:
 
         QTreeWidgetItem* father = new  QTreeWidgetItem();
         father->setText(0, QLatin1String("modeltree"));
-        father->setIcon(0, QIcon("..\\svg\\file.svg"));
+        father->setIcon(0, QIcon("svg\\file.svg"));
         tree->addTopLevelItem(father);
 
         int Roots = FreeShape.Length();
@@ -89,14 +82,14 @@ public:
             TDF_Label Label = FreeShape.Value(index);
 
 
-            MakeTree(myAssembly, aColorTool, Label, TopLoc_Location(), father);
+            MakeTree(myAssembly, Label, TopLoc_Location(), father);
 
         }
         return tree;
 
     }
 
-    void MakeTree(const Handle(XCAFDoc_ShapeTool)& ShapeTool, const Handle(XCAFDoc_ColorTool)& ColorTool, const TDF_Label& Label, TopLoc_Location Location, QTreeWidgetItem* father)
+    void MakeTree(const Handle(XCAFDoc_ShapeTool)& ShapeTool, const TDF_Label& Label, TopLoc_Location Location, QTreeWidgetItem* father)
     {
         //获取名字
          Handle(TDataStd_Name) aName;
@@ -108,12 +101,14 @@ public:
             TopoDS_Shape aShape;
             ShapeTool->GetShape(Label, aShape);
             if (aShape.ShapeType() == 0) {
-                child->setIcon(0, QIcon("..\\svg\\xde-assembly.svg"));
-            }
-            if (aShape.ShapeType() == 2) {
-                child->setIcon(0, QIcon("..\\svg\\xde-simple-shape.svg"));
+                child->setIcon(0, QIcon("svg\\xde-assembly.svg"));
                 aShape.Location(Location);
                 stepmodel.push_back(aShape);
+            }
+            if (aShape.ShapeType() == 2) {
+                child->setIcon(0, QIcon("svg\\xde-simple-shape.svg"));
+               /* aShape.Location(Location);
+                stepmodel.push_back(aShape);*/
             }
      
          
@@ -147,7 +142,7 @@ public:
                     {
                         TopLoc_Location LocalLocation = Location * ShapeTool->GetLocation(ChildLabel);
                         //深度遍历，因为组合体里面也可能包含组合体
-                        MakeTree(ShapeTool, ColorTool, ShapeLabel, LocalLocation, child);
+                        MakeTree(ShapeTool, ShapeLabel, LocalLocation, child);
                     }
                 }
             }

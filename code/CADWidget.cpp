@@ -94,10 +94,9 @@ CADWidget::CADWidget(QWidget* parent)
 		m_Window->Map();
 	}
 
-	//选择/显示模式初始化
-	m_SelectMode = 0;
+
 	m_DisplayMode = 1;
-	m_HilightMode = 1;
+
 	//Handle(Prs3d_Drawer) drawer;
 	m_Context = new AIS_InteractiveContext(m_Viewer);
 	m_Context->SetDisplayMode(m_DisplayMode, Standard_True);
@@ -114,11 +113,6 @@ CADWidget::CADWidget(QWidget* parent)
 
 	setAttribute(Qt::WA_PaintOnScreen);
 	
-
-
-
-
-
 
 	
 }

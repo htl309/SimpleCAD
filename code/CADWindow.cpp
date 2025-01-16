@@ -6,7 +6,7 @@ CADWindow::CADWindow(QWidget* parent) :QMainWindow(parent)
 {
 	int size_X = 800;
 	int size_Y = 800;
-	this->setWindowTitle("Direct Modeling");
+	this->setWindowTitle("SimpleCAD");
 	this->resize(size_X, size_Y);
 	m_Widget = new CADWidget();
 	m_Widget->resize(size_X, size_Y);
@@ -14,26 +14,8 @@ CADWindow::CADWindow(QWidget* parent) :QMainWindow(parent)
 	splitter = new QSplitter; 
 	tree = new QTreeWidget();
 
-	//DrawStepModel();
-	//tree = m_Widget->tree;
 	tree->setHeaderHidden(true);
-	//QIcon myGroupIcon("../data/images/gear.svg");
 
-	//QList<QString> allItemName{QString::fromLocal8Bit("父亲")};
-	//QTreeWidgetItem* root = new QTreeWidgetItem(allItemName);
-	////root->setText(0, QLatin1String("adfaf"));
-	//root->setIcon(0, myGroupIcon);
-	//m_Widget->tree->addTopLevelItem(root);
-
-
-	//QTreeWidgetItem* child = new QTreeWidgetItem();
-	//child->setText(0, QString::fromLocal8Bit("孩子"));
-	//root->addChild(child);
-
-
-	//QTreeWidgetItem* childx = new QTreeWidgetItem();
-	//childx->setText(0, QString::fromLocal8Bit("孩子x"));
-	//child->addChild(childx);
 
 
 	splitter->addWidget(tree);
@@ -72,7 +54,7 @@ void CADWindow::DrawBottle() {
 
 void CADWindow::DrawStepModel() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("选择一个Step文件"), "", QString::fromLocal8Bit("所有文件 (*.stp *.step)"));
+	QString fileName = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("Simple CAD"), "", QString::fromLocal8Bit("(*.stp *.step)"));
 
 	QByteArray byteArray = fileName.toUtf8();
 
